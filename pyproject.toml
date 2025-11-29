@@ -14,9 +14,9 @@ dependencies = [
     "tavily-python>=0.5.0",
     "httpx>=0.28.1",
     "markdownify>=1.2.0",
-    "deepagents>=0.2.6",
+    "deepagents>=0.2.8",
     "python-dotenv>=1.0.0",
-    "langgraph-cli[inmem]>=0.1.55",
+    "langgraph-cli[inmem]>=0.4.7",
     "langchain-google-genai>=3.1.0",
 ]
 
