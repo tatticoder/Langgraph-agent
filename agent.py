@@ -14,7 +14,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langfuse.langchain import CallbackHandler
 
 from research_agent.prompts import researcher_raw_prompt, supervisor_raw_prompt
-from research_agent.tools import tavily_search, think_tool
+from research_agent.tools import get_weather, think_tool
 
 # Limits
 max_concurrent_research_units = 3
@@ -29,7 +29,10 @@ research_sub_agent = {
     "name": "research-agent",
     "description": "Delegate research to the sub-agent researcher. Only give this researcher one topic at a time.",
     "system_prompt": researcher_raw_prompt.compile(date=current_date),
-    "tools": [tavily_search, think_tool],
+    "tools": [get_weather, think_tool],
+    "interrupt_on": {
+        "get_weather": {"allowed_decisions": ["approve", "edit", "reject"]},
+    },
 }
 
 model = ChatGoogleGenerativeAI(model="gemini-3-pro-preview")
