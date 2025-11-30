@@ -38,6 +38,10 @@ packages = ["research_agent"]
 "*" = ["py.typed"]
 
 [tool.ruff]
+cache-dir = "~/.cache/ruff"
+fix = true
+indent-width = 4
+target-version = "py313"
 lint.select = [
     "E",    # pycodestyle
     "F",    # pyflakes
