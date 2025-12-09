@@ -60,6 +60,6 @@ agent = create_deep_agent(
         max_researcher_iterations=max_researcher_iterations,
     ),
     subagents=[research_sub_agent],
-    debug=True,
+    debug=False,
     backend=_make_backend,
 ).with_config(config)
