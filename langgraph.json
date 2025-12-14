@@ -21,5 +21,7 @@
   "graphs": {
     "research": "./agent.py:agent"
   },
+  "python_version": "3.13",
+  "pip_installer": "uv",
   "env": ".env"
 }

@@ -9,10 +9,10 @@ from research_agent.prompts import (
     RESEARCHER_INSTRUCTIONS,
     SUBAGENT_DELEGATION_INSTRUCTIONS,
 )
-from research_agent.tools import tavily_search, think_tool
+from research_agent.tools import fetch_webpage_content, think_tool
 
 __all__ = [
-    "tavily_search",
+    "fetch_webpage_content",
     "think_tool",
     "RESEARCHER_INSTRUCTIONS",
     "RESEARCH_WORKFLOW_INSTRUCTIONS",

@@ -5,11 +5,11 @@ using Tavily for URL discovery and fetching full webpage content.
 """
 
 import httpx
-from langchain_core.tools import InjectedToolArg, tool
+from langchain_core.tools import tool
 from markdownify import markdownify
-from typing_extensions import Annotated, Literal
 
 
+@tool(parse_docstring=True)
 def fetch_webpage_content(url: str, timeout: float = 10.0) -> str:
     """Fetch and convert webpage content to markdown.
 
@@ -30,26 +30,6 @@ def fetch_webpage_content(url: str, timeout: float = 10.0) -> str:
         return markdownify(response.text)
     except Exception as e:
         return f"Error fetching content from {url}: {str(e)}"
-
-
-@tool(parse_docstring=True)
-def tavily_search(
-    query: str,
-    max_results: Annotated[int, InjectedToolArg] = 1,
-    topic: Annotated[
-        Literal["general", "news", "finance"], InjectedToolArg
-    ] = "general",
-) -> str:
-    """Tool for searching the web for information (DEMO FUNCTION).
-
-    This is a demonstration function meant for testing purposes only.
-
-    Args:
-        query: The string to search for on the internet.
-    """
-    response = f"""🔍 Found 0 result(s) for '{query}': mock data"""
-
-    return response
 
 
 @tool

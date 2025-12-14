@@ -13,8 +13,14 @@ from langchain_core.runnables import RunnableConfig
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langfuse.langchain import CallbackHandler
 
+from arduino_agent.tools import (
+    display_countdown,
+    display_text,
+    play_sound,
+    start_led_blinker,
+)
 from research_agent.prompts import researcher_raw_prompt, supervisor_raw_prompt
-from research_agent.tools import get_weather, think_tool
+from research_agent.tools import fetch_webpage_content, get_weather, think_tool
 
 # Limits
 max_concurrent_research_units = 3
@@ -29,9 +35,23 @@ research_sub_agent = {
     "name": "research-agent",
     "description": "Delegate research to the sub-agent researcher. Only give this researcher one topic at a time.",
     "system_prompt": researcher_raw_prompt.compile(date=current_date),
-    "tools": [get_weather, think_tool],
+    "tools": [get_weather, think_tool, fetch_webpage_content],
     "interrupt_on": {
         "get_weather": {"allowed_decisions": ["approve", "edit", "reject"]},
+    },
+}
+
+# Create Arduino sub-agent
+arduino_sub_agent = {
+    "name": "Arduino Agent",
+    "description": "An agent that controls an Arduino board with various capabilities like LED blinking, sound playing, and text display.",
+    "system_prompt": "You are a helpful assistant that can control an Arduino board. You have access to tools to blink LEDs, play sounds, and display text. If a tool returns an error (e.g., connection failed), please inform the user politely about the issue and suggest checking the device.",
+    "tools": [start_led_blinker, play_sound, display_countdown, display_text],
+    "interrupt_on": {
+        "start_led_blinker": False,  # No interrupts needed
+        "play_sound": {"allowed_decisions": ["approve", "reject"]},
+        "display_countdown": {"allowed_decisions": ["approve"]},
+        "display_text": {"allowed_decisions": ["approve", "edit", "reject"]},
     },
 }
 
@@ -59,7 +79,7 @@ agent = create_deep_agent(
         max_concurrent_research_units=max_concurrent_research_units,
         max_researcher_iterations=max_researcher_iterations,
     ),
-    subagents=[research_sub_agent],
+    subagents=[research_sub_agent, arduino_sub_agent],
     debug=False,
     backend=_make_backend,
 ).with_config(config)

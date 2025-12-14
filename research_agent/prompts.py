@@ -80,10 +80,6 @@ Simply list items with details - no introduction needed:
 
 RESEARCHER_INSTRUCTIONS = researcher_raw_prompt.compile(date="agent_cards_text")
 
-TASK_DESCRIPTION_PREFIX = """Delegate a task to a specialized sub-agent with isolated context. Available agents for delegation are:
-{other_agents}
-"""
-
 SUBAGENT_DELEGATION_INSTRUCTIONS = """# Sub-Agent Research Coordination
 
 Your role is to coordinate research by delegating tasks from your TODO list to specialized research sub-agents.
