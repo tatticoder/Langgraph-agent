@@ -42,7 +42,7 @@ byte select_seg4 = 0xF8;
 ArduinoLEDMatrix matrix;
 
 const char ssid[] = "Naman_4G";    //Enter your WIFI SSID
-const char pass[] = "8287285756";  //Enter your WIFI password
+const char pass[] = "12345678";  //Enter your WIFI password
 int keyIndex = 0;
 
 String output = "off";
